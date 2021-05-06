@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { Difficulty, QuestionsState } from './types'
-import { fetchQuestions } from './server/API'
+import { fetchQuestions } from './data-loader/API'
 import QuestionCard from './components/QuestionCard'
 import { GlobalStyle, Wrapper } from './App.styles'
 import Loader from 'react-loader-spinner'
