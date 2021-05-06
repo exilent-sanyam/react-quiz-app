@@ -3,6 +3,7 @@ import { Difficulty, QuestionsState } from './types'
 import { fetchQuestions } from './server/API'
 import QuestionCard from './components/QuestionCard'
 import { GlobalStyle, Wrapper } from './App.styles'
+import Loader from 'react-loader-spinner'
 
 export type AnswerState = {
   question: string
@@ -63,7 +64,9 @@ const App = () => {
           </button>
         ) : null}
         {!gameOver && <p className='score'>Score:{score}</p>}
-        {loading ? <p>Loading Question</p> : null}
+        {loading ? (
+          <Loader type='ThreeDots' color='#00BFFF' height={80} width={80} />
+        ) : null}
         {!loading && !gameOver && (
           <QuestionCard
             questionNo={number + 1}
