@@ -1,9 +1,12 @@
 import React, { useState } from 'react'
 import { Difficulty, QuestionsState } from './types'
 import { fetchQuestions } from './data-loader/API'
-import QuestionCard from './components/QuestionCard'
+import QuestionCard from './components/QuestionCard/QuestionCard'
 import { GlobalStyle, Wrapper } from './App.styles'
 import Loader from 'react-loader-spinner'
+import Restart from './components/Restart/Restart'
+import { RestartButtonWrapper } from './components/Restart/Restart.syles'
+import Confetti from 'react-confetti'
 
 export type AnswerState = {
   question: string
@@ -47,6 +50,19 @@ const App = () => {
     }
   }
 
+  const startOverAgain = async () => {
+    await startQuiz()
+  }
+
+  function getWindowDimensions() {
+    const { innerWidth: width, innerHeight: height } = window
+    return {
+      width,
+      height,
+    }
+  }
+  const { height, width } = getWindowDimensions()
+
   const nextQuestion = () => {
     const nextQuestion = number + 1
     if (nextQuestion === TOTAL_QUESTIONS) {
@@ -58,10 +74,18 @@ const App = () => {
       <GlobalStyle />
       <Wrapper className='App'>
         <h1>Quiz</h1>
-        {gameOver || userAnswer.length === TOTAL_QUESTIONS ? (
+        {gameOver && userAnswer.length === 0 ? (
           <button className='start' onClick={startQuiz}>
             Start
           </button>
+        ) : null}
+        {!gameOver && userAnswer.length === TOTAL_QUESTIONS ? (
+          <RestartButtonWrapper>
+            <Restart onClick={startOverAgain} />
+          </RestartButtonWrapper>
+        ) : null}
+        {!gameOver && userAnswer.length === TOTAL_QUESTIONS ? (
+          <Confetti width={width} height={height} />
         ) : null}
         {!gameOver && <p className='score'>Score:{score}</p>}
         {loading ? (
